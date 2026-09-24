@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DocIndeX — document indexing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="stage">
+    <header class="masthead">
+      <div class="mark">
+        <span class="mark__glyph">◈</span>
+        <span class="mark__name">DocIndeX</span>
+      </div>
+      <p class="masthead__tag">Storage and indexing of uploaded documents</p>
+    </header>
+
+    <main class="panel">
+      <div class="panel__intro">
+        <h1>Upload a document</h1>
+        <p>Drop a PDF in the area below.</p>
+      </div>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flashes">
+            {% for category, msg in messages %}
+              <div class="flash flash--{{ category }}">
+                <span class="flash__dot"></span>
+                <span class="flash__text">{{ msg }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <form class="dropzone" id="dropzone"
+            action="{{ url_for('upload') }}"
+            method="post" enctype="multipart/form-data">
+        <input type="file" name="pdf" id="pdf" accept="application/pdf,.pdf" hidden>
+
+        <div class="dropzone__inner" id="dropzone-inner">
+          <div class="dropzone__icon">⬍</div>
+          <p class="dropzone__lead" id="dz-lead">Drop your PDF here</p>
+          <p class="dropzone__hint" id="dz-hint">or <button type="button" class="linklike" id="browse">choose a file</button> · .pdf only</p>
+        </div>
+
+        <button type="submit" class="submit" id="submit" disabled>Index document</button>
+      </form>
+    </main>
+
+    <section class="archive">
+      <div class="archive__head">
+        <h2>Recently indexed documents</h2>
+        <span class="archive__count">{{ documents|length }}</span>
+      </div>
+
+      {% if documents %}
+      <table class="archive__table">
+        <thead>
+          <tr><th>#</th><th>File name</th><th>Extracted author</th></tr>
+        </thead>
+        <tbody>
+          {% for id, name, author in documents %}
+          <tr>
+            <td class="cell-id">{{ id }}</td>
+            <td class="cell-name">{{ name }}</td>
+            <td class="cell-author">{{ author }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p class="archive__empty">No documents yet. The first one you upload shows up here.</p>
+      {% endif %}
+    </section>
+
+    <footer class="footly">
+      <span>DocIndeX · lab environment</span>
+      <span class="mode {{ 'mode--vuln' if vulnerable else 'mode--safe' }}">
+        mode: {{ 'vulnerable' if vulnerable else 'protected' }}
+      </span>
+    </footer>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

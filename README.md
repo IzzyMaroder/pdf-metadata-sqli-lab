@@ -5,8 +5,7 @@ of a PDF file**. A small document management app ("DocIndeX") reads the author
 from an uploaded PDF's metadata and stores it in a database, concatenating the
 value straight into the query.
 
-The backend is **Microsoft SQL Server**, so the usual T-SQL payloads behave as
-they would in a real engagement.
+The backend is **Microsoft SQL Server**.
 
 Full write-up: [LINK TO THE ARTICLE]
 

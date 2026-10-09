@@ -7,7 +7,7 @@ value straight into the query.
 
 The backend is **Microsoft SQL Server**.
 
-Full write-up: [LINK TO THE ARTICLE]
+Full write-up: [https://medium.com/@leonardospinelli_14848/sql-injection-through-pdf-metadata-c74a59210bc6]
 
 > ⚠️ Intentionally vulnerable app. Run it only in a local, isolated environment.
 
